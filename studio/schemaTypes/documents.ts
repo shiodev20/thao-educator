@@ -150,6 +150,12 @@ export const contactPage = defineType({
     f("namePlaceholder", "Form: gợi ý tên", "localeString"),
     f("emailLabel", "Form: câu hỏi email", "localeString"),
     f("emailPlaceholder", "Form: gợi ý email", "localeString"),
+    f("phoneLabel", "Form: câu hỏi số điện thoại (không bắt buộc)", "localeString", {
+      description: 'Để trống sẽ hiện "What’s your phone number?" / "Số điện thoại của bạn là gì?"',
+    }),
+    f("phonePlaceholder", "Form: gợi ý số điện thoại", "localeString", {
+      description: 'Để trống sẽ hiện "+84 912 345 678" / "0912 345 678"',
+    }),
     f("asQuestion", "Form: bạn liên hệ với tư cách", "choiceQuestion"),
     f("roleQuestion", "Form: hình thức hợp tác", "choiceQuestion"),
     f("formatQuestion", "Form: định dạng (chọn nhiều)", "choiceQuestion"),

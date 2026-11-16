@@ -45,7 +45,7 @@ const phoneHref = settings.phone ? `tel:${settings.phone.replace(/[^\d+]/g, "")}
       </div>
 
       <form class="form form-card" data-mailto={settings.email} data-endpoint={settings.contactSheetUrl} data-lang={lang}
-        data-msg-fill={t("formFill")} data-msg-opening={t("formOpening")} data-msg-sending={t("formSending")}
+        data-msg-fill={t("formFill")} data-msg-phone={t("formPhone")} data-msg-opening={t("formOpening")} data-msg-sending={t("formSending")}
         data-msg-sent={t("formSent")} data-msg-error={t("formError")} novalidate>
         <!-- Bot trap: hidden from people, bots tend to fill it in -->
         <input class="form__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -56,6 +56,10 @@ const phoneHref = settings.phone ? `tel:${settings.phone.replace(/[^\d+]/g, "")}
         <div class="form__group">
           <label class="form__label form__label--req" for="f-email">{tr(c.emailLabel, lang)}</label>
           <input class="form__input" id="f-email" name="email" type="email" placeholder={tr(c.emailPlaceholder, lang)} autocomplete="email" aria-required="true">
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="f-phone">{tr(c.phoneLabel, lang) || t("phoneLabel")}</label>
+          <input class="form__input" id="f-phone" name="phone" type="tel" placeholder={tr(c.phonePlaceholder, lang) || t("phonePlaceholder")} autocomplete="tel" inputmode="tel" maxlength="30">
         </div>
         <fieldset class="form__group">
           <FormLegend lang={lang} question={c.asQuestion} />

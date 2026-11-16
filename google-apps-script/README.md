@@ -22,6 +22,7 @@ Mỗi lượt gửi form trên trang Liên hệ được ghi thành 1 dòng tron
 
 - **Sửa script sau này:** vào **Deploy → Manage deployments → ✏️ → Version: New version → Deploy** để giữ nguyên URL.
   Nếu tạo "New deployment" thì sẽ ra URL mới và phải dán lại vào Sanity.
+- **Thêm cột mới:** thêm vào **cuối** `COLUMNS` trong Code.gs (không chèn vào giữa, để dữ liệu cũ không lệch cột). Tiêu đề cột mới tự xuất hiện ở dòng 1 sau lượt gửi form kế tiếp.
 - **Đổi sang Sheet khác:** làm lại các bước trên với Sheet mới rồi dán URL mới vào Sanity.
 - Nếu gửi vào Sheet thất bại, form tự mở ứng dụng email (gửi tới email trong Cài đặt chung) để không mất liên hệ.
 - Ô Sanity để trống thì form mở ứng dụng email như trước đây.

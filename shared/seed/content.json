@@ -215,6 +215,14 @@
     "emailPlaceholder": {
       "en": "ken@robinson.com"
     },
+    "phoneLabel": {
+      "en": "What’s your phone number?",
+      "vi": "Số điện thoại của bạn là gì?"
+    },
+    "phonePlaceholder": {
+      "en": "+84 912 345 678",
+      "vi": "0912 345 678"
+    },
     "asQuestion": {
       "_type": "choiceQuestion",
       "label": {

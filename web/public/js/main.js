@@ -407,6 +407,15 @@ function initForm() {
   $$('input[name="timing_preset"]', form).forEach((r) => r.addEventListener("change", () => {
     if (r.value === "today" && date && !date.value) date.value = toISO(new Date());
   }));
+  // Phone (optional): only digits and + ( ) - . space can be typed or pasted
+  const phone = $("#f-phone", form);
+  phone?.addEventListener("input", () => {
+    const v = phone.value.replace(/[^\d+()\-.\s]/g, "");
+    if (v === phone.value) return;
+    const pos = Math.max(0, (phone.selectionStart ?? v.length) - (phone.value.length - v.length));
+    phone.value = v;
+    phone.setSelectionRange(pos, pos);
+  });
   const status = $(".form__status");
   const button = $('button[type="submit"]', form);
   const { endpoint } = form.dataset;
@@ -418,6 +427,14 @@ function initForm() {
     const d = new FormData(form);
     if (!d.get("name") || !d.get("email") || !d.get("message")) {
       status.textContent = form.dataset.msgFill;
+      return;
+    }
+    // If filled in, the phone number needs 8–15 digits (international maximum is 15)
+    const tel = String(d.get("phone") || "").trim();
+    const digits = tel.replace(/\D/g, "").length;
+    if (tel && (digits < 8 || digits > 15)) {
+      status.textContent = form.dataset.msgPhone;
+      phone?.focus();
       return;
     }
     if (d.get("website")) return; // bot trap filled in
@@ -433,6 +450,7 @@ function initForm() {
           body: JSON.stringify({
             name: d.get("name"),
             email: d.get("email"),
+            phone: d.get("phone"),
             as: labels("as"),
             role: labels("role"),
             format: labels("format"),
@@ -461,6 +479,7 @@ function initForm() {
     const body = [
       `Name: ${d.get("name")}`,
       `Email: ${d.get("email")}`,
+      `Phone: ${d.get("phone") || "-"}`,
       `Reaching out as: ${d.get("as") || "-"}`,
       `Would like to work with me as: ${d.get("role") || "-"}`,
       `Format: ${d.getAll("format").join(", ") || "-"}`,
