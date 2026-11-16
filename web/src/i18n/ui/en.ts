@@ -47,6 +47,7 @@ export default {
   date: "Date",
   time: "Time",
   quickTiming: "Quick timing",
+  selectMultiple: "Select all that apply",
   formFill: "Please fill in your name, email and message.",
   formOpening: "Opening your mail app…",
   formSending: "Sending…",

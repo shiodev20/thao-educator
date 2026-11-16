@@ -55,6 +55,12 @@ export const homeCard = defineType({
     defineField({ name: "category", title: "Nhóm (dòng nhỏ phía trên)", type: "localeString" }),
     defineField({ name: "description", title: "Mô tả", type: "localeString" }),
     hrefField,
+    defineField({
+      name: "transitionLabel",
+      title: "Chữ trên màn chuyển trang (không bắt buộc)",
+      type: "localeString",
+      description: 'Để trống sẽ dùng chữ của trang đích (Cài đặt chung → Chuyển trang), hoặc tiêu đề thẻ nếu link không phải trang trong web.',
+    }),
     defineField({ name: "comingSoon", title: 'Hiện nhãn "Sắp ra mắt"', type: "boolean", initialValue: false }),
     defineField({ name: "image", title: "Ảnh", type: "image", options: { hotspot: true } }),
     defineField({
@@ -171,6 +177,13 @@ export const choiceQuestion = defineType({
   type: "object",
   fields: [
     defineField({ name: "label", title: "Câu hỏi", type: "localeString" }),
+    defineField({
+      name: "hint",
+      title: "Chú thích",
+      type: "localeString",
+      description:
+        'Chữ nhỏ hiện cạnh câu hỏi, vd. "Chọn nhiều", "Không bắt buộc". Để trống: câu chọn nhiều tự hiện "Có thể chọn nhiều", câu chọn một không hiện gì.',
+    }),
     defineField({ name: "options", title: "Các lựa chọn", type: "array", of: [{ type: "choiceOption" }] }),
   ],
 });

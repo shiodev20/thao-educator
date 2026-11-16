@@ -1,4 +1,5 @@
-import type { UIKey } from "../i18n";
+import { tr, useT, type LanguageId, type UIKey } from "../i18n";
+import type { Doc } from "./sanity";
 
 /** Site pages: path (default language) + the UI key used for its name. */
 export const pages = {
@@ -13,6 +14,20 @@ export const pages = {
 
 export type PageKey = keyof typeof pages;
 
-/** Page name for an internal link (shown on the page-transition cover). */
-export const pageLabelFor = (href: string | undefined): UIKey | undefined =>
-  Object.values(pages).find((p) => p.path === href)?.label;
+/**
+ * Labels shown on the page-transition cover. Each one can be set in the dashboard
+ * (Cài đặt chung → Chuyển trang, field siteSettings.transitionLabels.<key>);
+ * an empty field falls back to the interface string with the same key.
+ */
+export const transitionKeys = ["home", "portfolio", "contact", "course", "aiTool", "workWithMe"] as const;
+export type TransitionKey = (typeof transitionKeys)[number];
+
+/** Label on the transition cover for a page (or the footer "Work with me" button). */
+export const transitionLabel = (key: TransitionKey, lang: LanguageId, settings: Doc): string =>
+  tr(settings?.transitionLabels?.[key], lang) || useT(lang)(key);
+
+/** Label on the transition cover for an internal link, or undefined if the link is not a site page. */
+export const transitionLabelFor = (href: string | undefined, lang: LanguageId, settings: Doc): string | undefined => {
+  const key = transitionKeys.find((k) => k !== "workWithMe" && pages[k].path === href);
+  return key ? transitionLabel(key, lang, settings) : undefined;
+};

@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import FooterMeta from "../../components/FooterMeta.astro";
 import Socials from "../../components/Socials.astro";
 import Chips from "../../components/Chips.astro";
+import FormLegend from "../../components/FormLegend.astro";
 import Icon from "../../components/Icon.astro";
 import { langPaths, tr, useT, type LanguageId } from "../../i18n";
 import { getContact, getSettings } from "../../lib/content";
@@ -57,15 +58,15 @@ const phoneHref = settings.phone ? `tel:${settings.phone.replace(/[^\d+]/g, "")}
           <input class="form__input" id="f-email" name="email" type="email" placeholder={tr(c.emailPlaceholder, lang)} autocomplete="email" aria-required="true">
         </div>
         <fieldset class="form__group">
-          <legend class="form__label">{tr(c.asQuestion?.label, lang)}</legend>
+          <FormLegend lang={lang} question={c.asQuestion} />
           <Chips lang={lang} question={c.asQuestion} name="as" />
         </fieldset>
         <fieldset class="form__group">
-          <legend class="form__label">{tr(c.roleQuestion?.label, lang)}</legend>
+          <FormLegend lang={lang} question={c.roleQuestion} />
           <Chips lang={lang} question={c.roleQuestion} name="role" />
         </fieldset>
         <fieldset class="form__group">
-          <legend class="form__label">{tr(c.formatQuestion?.label, lang)}</legend>
+          <FormLegend lang={lang} question={c.formatQuestion} multiple />
           <Chips lang={lang} question={c.formatQuestion} name="format" type="checkbox" />
         </fieldset>
         <!-- Timing. Sent fields (all optional, any combination):
@@ -73,7 +74,7 @@ const phoneHref = settings.phone ? `tel:${settings.phone.replace(/[^\d+]/g, "")}
              timing_time   = HH:MM, 24h   (native time picker)
              timing_preset = option values from the dashboard ("today" also fills in the date) -->
         <fieldset class="form__group">
-          <legend class="form__label">{tr(c.timingQuestion?.label, lang)}</legend>
+          <FormLegend lang={lang} question={c.timingQuestion} />
           <div class="form__datetime">
             <label class="form__sub">
               <span class="form__sub-label">{t("date")}</span>

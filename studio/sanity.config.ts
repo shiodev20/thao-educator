@@ -1,6 +1,7 @@
 import { defineConfig } from "sanity";
 import { structureTool, type StructureBuilder } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
+import { media } from "sanity-plugin-media";
 import { schemaTypes, singletons } from "./schemaTypes";
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || "missing-project-id";
@@ -26,7 +27,9 @@ export default defineConfig({
   title: "Thao Portfolio",
   projectId,
   dataset,
-  plugins: [structureTool({ structure }), visionTool()],
+  // media(): "Media" tab to browse, search, tag and clean up every uploaded image;
+  // also adds a "Media" option when choosing an image for a field
+  plugins: [structureTool({ structure }), media(), visionTool()],
   schema: {
     types: schemaTypes,
     // Singletons can't be created from the "+" menu

@@ -3,14 +3,16 @@
 import Icon from "./Icon.astro";
 import { html, localizePath, tr, useT, type LanguageId } from "../i18n";
 import { img } from "../lib/image";
+import { transitionLabelFor } from "../lib/pages";
 import type { Doc } from "../lib/sanity";
 
 interface Props {
   lang: LanguageId;
   role: Doc;
   index: number;
+  settings: Doc;
 }
-const { lang, role, index } = Astro.props;
+const { lang, role, index, settings } = Astro.props;
 const t = useT(lang);
 const id = role.anchor || `role-${index + 1}`;
 const gallery = (role.gallery ?? []).map((g: Doc) => ({ thumb: img(g, 800), full: img(g, 2000) })).filter((g: Doc) => g.thumb);
@@ -62,7 +64,7 @@ const text = (v: Doc | undefined) => html(tr(v, lang));
                 </div>
               )}
               {role.cta?.label && (
-                <div class="pf-cta"><a href={localizePath(role.cta.href, lang)} class="btn-pill"><span class="btn__text">{tr(role.cta.label, lang)}</span><Icon name="arrow-right" class="icon btn__arrow" /></a></div>
+                <div class="pf-cta"><a href={localizePath(role.cta.href, lang)} class="btn-pill" data-page={transitionLabelFor(role.cta.href, lang, settings)}><span class="btn__text">{tr(role.cta.label, lang)}</span><Icon name="arrow-right" class="icon btn__arrow" /></a></div>
               )}
               {tr(role.pendingNote, lang) && <span class="pf-pending">{tr(role.pendingNote, lang)}</span>}
             </div>

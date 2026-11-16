@@ -1,0 +1,15 @@
+---
+// Legend of a contact-form choice question, with its hint (small text next to it).
+// The hint comes from the dashboard; multi-select questions without one show "Select all that apply".
+import { tr, useT, type LanguageId } from "../i18n";
+import type { Doc } from "../lib/sanity";
+
+interface Props {
+  lang: LanguageId;
+  question?: Doc;
+  multiple?: boolean;
+}
+const { lang, question = {}, multiple = false } = Astro.props;
+const hint = tr(question.hint, lang) || (multiple ? useT(lang)("selectMultiple") : "");
+---
+<legend class="form__label">{tr(question.label, lang)}{hint && <span class="form__hint">{hint}</span>}</legend>

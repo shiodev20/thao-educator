@@ -3,7 +3,7 @@ import Icon from "./Icon.astro";
 import LangSwitch from "./LangSwitch.astro";
 import Socials from "./Socials.astro";
 import { localizePath, useT, type LanguageId } from "../i18n";
-import { pages, type PageKey } from "../lib/pages";
+import { pages, transitionLabel, type PageKey } from "../lib/pages";
 import type { Doc } from "../lib/sanity";
 
 interface Props {
@@ -14,9 +14,10 @@ interface Props {
 }
 const { lang, page, alternates, settings } = Astro.props;
 const t = useT(lang);
-const link = (key: PageKey) => ({ href: localizePath(pages[key].path, lang), "data-page": t(pages[key].label) });
-const navKeys: PageKey[] = ["portfolio", "contact"];
-const menuKeys: PageKey[] = ["home", "portfolio", "contact"];
+type NavKey = Exclude<PageKey, "notFound">;
+const link = (key: NavKey) => ({ href: localizePath(pages[key].path, lang), "data-page": transitionLabel(key, lang, settings) });
+const navKeys: NavKey[] = ["portfolio", "contact"];
+const menuKeys: NavKey[] = ["home", "portfolio", "contact"];
 ---
 <header class="header">
   <a {...link("home")} class="logo" data-magnetic="0.3">

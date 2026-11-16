@@ -39,6 +39,7 @@ const vi: Partial<typeof en> = {
   date: "Ngày",
   time: "Giờ",
   quickTiming: "Chọn nhanh thời gian",
+  selectMultiple: "Có thể chọn nhiều",
   formFill: "Vui lòng điền tên, email và nội dung tin nhắn.",
   formOpening: "Đang mở ứng dụng email…",
   formSending: "Đang gửi…",

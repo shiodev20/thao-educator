@@ -5,7 +5,7 @@ import FooterMeta from "./FooterMeta.astro";
 import Icon from "./Icon.astro";
 import { html, localizePath, tr, useT, type LanguageId } from "../i18n";
 import { getProgram, getSettings } from "../lib/content";
-import type { PageKey } from "../lib/pages";
+import { transitionLabel, type PageKey } from "../lib/pages";
 
 interface Props {
   lang: LanguageId;
@@ -22,7 +22,7 @@ const [settings, p] = await Promise.all([getSettings(), getProgram(page === "cou
       <h1 class="soon__title">{tr(p.title, lang)}</h1>
       {p.comingSoon && <p class="soon__badge"><span class="soon__dot" aria-hidden="true"></span><span>{t("comingSoon")}</span></p>}
       <p class="soon__text" set:html={html(tr(p.description, lang))} />
-      <a href={localizePath("/", lang)} class="btn-pill" data-page={t("home")}><span class="btn__text">{t("backHome")}</span><Icon name="arrow-right" class="icon btn__arrow" /></a>
+      <a href={localizePath("/", lang)} class="btn-pill" data-page={transitionLabel("home", lang, settings)}><span class="btn__text">{t("backHome")}</span><Icon name="arrow-right" class="icon btn__arrow" /></a>
     </section>
 
     <section class="container">

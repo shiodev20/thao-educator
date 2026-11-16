@@ -19,6 +19,7 @@ export const siteSettings = defineType({
     { name: "brand", title: "Thương hiệu", default: true },
     { name: "contact", title: "Liên hệ" },
     { name: "footer", title: "Footer" },
+    { name: "transition", title: "Chuyển trang" },
   ],
   fields: [
     defineField({ name: "brandName", title: "Tên thương hiệu (logo)", type: "string", group: "brand" }),
@@ -46,6 +47,26 @@ export const siteSettings = defineType({
     defineField({ name: "footerTitle", title: "Tiêu đề lớn", type: "localeString", group: "footer" }),
     defineField({ name: "footerCta", title: "Chữ trên nút", type: "localeString", group: "footer" }),
     defineField({ name: "edition", title: "Dòng phiên bản", type: "localeString", group: "footer" }),
+    defineField({
+      name: "transitionLabels",
+      title: "Chữ trên màn chuyển trang",
+      type: "object",
+      group: "transition",
+      description:
+        "Chữ lớn hiện trên màn chuyển trang khi bấm link tới trang đó (từ menu, nút, thẻ…). Để trống sẽ dùng chữ mặc định ghi dưới mỗi ô. Sau khi đổi cần build lại website.",
+      fields: (
+        [
+          ["home", "Tới Trang chủ", "Home / Trang chủ"],
+          ["portfolio", "Tới Portfolio", "Portfolio / Hồ sơ năng lực"],
+          ["contact", "Tới Liên hệ", "Contact / Liên hệ"],
+          ["course", "Tới Khóa học", "Course / Khóa học"],
+          ["aiTool", "Tới AI Tool", "AI Tool / Công cụ AI"],
+          ["workWithMe", 'Nút cuối trang ("Work with me")', "Work with me / Hợp tác cùng tôi"],
+        ] as const
+      ).map(([name, title, fallback]) =>
+        defineField({ name, title, type: "localeString", description: `Mặc định: ${fallback}` }),
+      ),
+    }),
   ],
   preview: { prepare: () => ({ title: "Cài đặt chung" }) },
 });

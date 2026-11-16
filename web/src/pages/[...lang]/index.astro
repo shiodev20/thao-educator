@@ -5,7 +5,7 @@ import Icon from "../../components/Icon.astro";
 import { html, langPaths, localizePath, tr, useT, type LanguageId } from "../../i18n";
 import { getHome, getSettings } from "../../lib/content";
 import { img } from "../../lib/image";
-import { pageLabelFor } from "../../lib/pages";
+import { transitionLabelFor } from "../../lib/pages";
 
 export const getStaticPaths = langPaths;
 const { lang } = Astro.props as { lang: LanguageId };
@@ -17,10 +17,7 @@ const tint = (v = "khaki-35") => {
   const [color, pct] = v.split("-");
   return `background:color-mix(in srgb, var(--${color}) ${pct}%, var(--ivory))`;
 };
-const pageName = (href?: string) => {
-  const key = pageLabelFor(href);
-  return key ? t(key) : undefined;
-};
+const pageName = (href?: string) => transitionLabelFor(href, lang, settings);
 const marquee = settings.marqueeText || settings.brandName || "";
 ---
 <Base lang={lang} page="home" settings={settings} seo={home.seo}>
@@ -64,7 +61,7 @@ const marquee = settings.marqueeText || settings.brandName || "";
           const image = img(card.image, 1200);
           return (
             <li>
-              <a class="work__row" href={localizePath(card.href, lang)} data-page={pageName(card.href) ?? tr(card.title, lang)}>
+              <a class="work__row" href={localizePath(card.href, lang)} data-page={tr(card.transitionLabel, lang) || pageName(card.href) || tr(card.title, lang)}>
                 <span class="work__media" aria-hidden="true" style={tint(card.tint)}>
                   {image && <img src={image.src} alt="" loading="lazy" width={image.width} height={image.height} decoding="async">}
                 </span>

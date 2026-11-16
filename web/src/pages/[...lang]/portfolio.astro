@@ -94,7 +94,7 @@ let roleIndex = 0;
               <div class="stage__body">
                 <h3 class="stage__meaning">{tr(stage.meaning, lang)}</h3>
                 <ul class="pf-items">
-                  {(stage.roles ?? []).map((role: Doc) => <CareerRole lang={lang} role={role} index={roleIndex++} />)}
+                  {(stage.roles ?? []).map((role: Doc) => <CareerRole lang={lang} role={role} index={roleIndex++} settings={settings} />)}
                 </ul>
               </div>
             </section>
