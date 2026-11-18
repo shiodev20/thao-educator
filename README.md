@@ -19,6 +19,13 @@ npm run build     # build tĩnh ra web/dist
 
 Chưa cấu hình Sanity thì website đọc nội dung từ `shared/seed/content.json`, chạy được ngay không cần tài khoản.
 
+**Thêm / cập nhật thư viện trong `web/`:** Cloudflare Pages cài bằng `npm ci` với **npm 10**. Lock file do npm 11 tạo có thể thiếu gói và làm build lỗi ("package.json and package-lock.json ... are not in sync"). Sau khi `npm install <gói>`, chạy thêm trong `web/`:
+
+```bash
+npx npm@10 install          # bổ sung lock file theo npm 10
+npx npm@10 ci --dry-run     # phải chạy không báo lỗi trước khi push
+```
+
 ## Nối Sanity
 
 1. Tạo project tại sanity.io/manage, ghi lại Project ID.
