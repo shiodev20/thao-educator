@@ -20,6 +20,7 @@ export const siteSettings = defineType({
     { name: "contact", title: "Liên hệ" },
     { name: "footer", title: "Footer" },
     { name: "transition", title: "Chuyển trang" },
+    { name: "tracking", title: "Theo dõi (Analytics)" },
   ],
   fields: [
     defineField({ name: "brandName", title: "Tên thương hiệu (logo)", type: "string", group: "brand" }),
@@ -66,6 +67,16 @@ export const siteSettings = defineType({
       ).map(([name, title, fallback]) =>
         defineField({ name, title, type: "localeString", description: `Mặc định: ${fallback}` }),
       ),
+    }),
+    defineField({
+      name: "gtmId",
+      title: "Google Tag Manager ID",
+      type: "string",
+      group: "tracking",
+      description:
+        "Mã container dạng GTM-XXXXXXX (GTM → Admin → Install Google Tag Manager). Google Analytics 4 được cài bên trong GTM, không nhập ở đây. Tracking chỉ đặt cookie khi khách bấm Đồng ý trên banner cookie (Google Consent Mode v2). Để trống thì website không gắn mã theo dõi. Sau khi đổi cần build lại website.",
+      validation: (r) =>
+        r.custom((v?: string) => (!v || /^GTM-[A-Z0-9]+$/.test(v) ? true : "Mã phải có dạng GTM-XXXXXXX (chữ in hoa và số, không có khoảng trắng)")),
     }),
   ],
   preview: { prepare: () => ({ title: "Cài đặt chung" }) },

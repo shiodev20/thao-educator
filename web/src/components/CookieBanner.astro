@@ -1,7 +1,7 @@
 ---
-/* Cookie consent banner — UI only for now (client review).
-   Buttons just close it; saving the choice and loading analytics comes later
-   (see initCookieBanner in public/js/main.js). */
+/* Cookie consent banner. Shown until the visitor accepts or declines; the choice is saved
+   and passed to Google Tag Manager via Consent Mode v2
+   (see initCookieBanner in public/js/main.js and the GTM script in layouts/Base.astro). */
 import { useT, type LanguageId } from "../i18n";
 
 const { lang } = Astro.props as { lang: LanguageId };

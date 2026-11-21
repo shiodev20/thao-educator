@@ -21,12 +21,37 @@ const description = tr(seo.description, lang);
 const ogImage = img(seo.image, 1200);
 const abs = (p: string) => (Astro.site ? new URL(p, Astro.site).href : undefined);
 const locale = languages.find((l) => l.id === lang)!.locale;
+// Google Tag Manager (dashboard: Cài đặt chung → Theo dõi). Production builds only, so local dev
+// doesn't send test visits to Analytics. GA4 and other tags are configured inside GTM.
+const gtmRaw = String(settings.gtmId ?? "").trim();
+const gtmId = import.meta.env.PROD && /^GTM-[A-Z0-9]+$/.test(gtmRaw) ? gtmRaw : undefined;
 ---
 <!doctype html>
 <html lang={lang} data-alternates={JSON.stringify(alternates)} data-default-lang={defaultLanguage}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {gtmId && (
+    <script is:inline define:vars={{ gtmId }}>
+      // Google Consent Mode v2: storage stays denied until the visitor accepts the cookie banner
+      // (choice saved in localStorage "cookie-consent" by js/main.js). Must run before GTM loads.
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      var denied = { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied" };
+      gtag("consent", "default", denied);
+      try {
+        if (localStorage.getItem("cookie-consent") === "granted") {
+          gtag("consent", "update", { ad_storage: "granted", ad_user_data: "granted", ad_personalization: "granted", analytics_storage: "granted" });
+        }
+      } catch (e) {}
+      // Google Tag Manager (official snippet)
+      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var gtm = document.createElement("script");
+      gtm.async = true;
+      gtm.src = "https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(gtmId);
+      document.head.appendChild(gtm);
+    </script>
+  )}
   <title>{title}</title>
   {description && <meta name="description" content={description}>}
   {abs(alternates[lang]) && <link rel="canonical" href={abs(alternates[lang])}>}
@@ -74,6 +99,7 @@ const locale = languages.find((l) => l.id === lang)!.locale;
   </script>
 </head>
 <body class={bodyClass}>
+  {gtmId && <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>}
   {isHome && (
     <div class="greeting" aria-hidden="true">
       <p class="greeting__word">Xin chào</p>

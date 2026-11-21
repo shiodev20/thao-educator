@@ -617,17 +617,29 @@ function initSubnav() {
    Boot
    -------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------
-   Cookie banner — UI only for now: slides in after the intro, buttons close it.
-   TODO: remember the choice (localStorage) and load analytics only on "accept".
+   Cookie banner + Google Consent Mode v2.
+   Slides in after the intro until the visitor chooses; the choice is saved in
+   localStorage "cookie-consent" (granted | denied) and sent to Google tags.
+   The default (denied) and a saved "granted" are applied in layouts/Base.astro before GTM loads.
    -------------------------------------------------------------------------- */
 function initCookieBanner() {
   const el = $(".cookie");
   if (!el) return;
+  let saved = null;
+  try { saved = localStorage.getItem("cookie-consent"); } catch (e) {}
+  if (saved === "granted" || saved === "denied") return;
+
   setTimeout(() => {
     el.hidden = false;
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-visible")));
   }, 1200);
   $$("[data-cookie]", el).forEach((btn) => btn.addEventListener("click", () => {
+    const choice = btn.dataset.cookie === "accept" ? "granted" : "denied";
+    try { localStorage.setItem("cookie-consent", choice); } catch (e) {}
+    if (typeof window.gtag === "function") {
+      window.gtag("consent", "update", { ad_storage: choice, ad_user_data: choice, ad_personalization: choice, analytics_storage: choice });
+      window.dataLayer.push({ event: "cookie_consent_update", cookie_consent: choice }); // usable as a GTM trigger
+    }
     el.classList.remove("is-visible");
     setTimeout(() => { el.hidden = true; }, 600);
   }));
